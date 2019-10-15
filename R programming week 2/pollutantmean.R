@@ -5,37 +5,25 @@
 # particulate matter data from the directory specified in the 'directory' argument and returns 
 # the mean of the pollutant across all of the monitors, ignoring any missing values coded as NA. 
 
-# test values
-directory <- "./R programming week 2/specdata/"
-
-library("stringr")
-id = 2:24
-
-key = paste0(str_pad(id, 3, pad = 0), ".csv")
-file.list <- list.files(directory)
-pos = which(file.list %in% key)
-file.list <- paste0(directory, file.list[pos])
-
-df = do.call(rbind, lapply(file.list,  read.csv))
-
-pollutant = "nitrate"
-
-
-
-# tmp <- read.csv(paste0(directory,list.files(directory)[1]))
-
 pollutantmean <- function(directory, pollutant, id = 1:332) {
   
-  # make a key from id
+  # get a list of the files in directory
+  file.list <- list.files(directory)
+  
+  # make a key from id and use it to subset the file list
   require("stringr")
   key = paste0(str_pad(id, 3, pad = 0), ".csv")
-  
-  # use key to subset the file list
-  file.list <- list.files(directory)
-  file.list <- substring(file.list, length(file.list)-4, length(file.list))
-  
+  pos = which(file.list %in% key)
+  file.list <- paste0(directory, file.list[pos])
+
   # import the files, appending to df
+  df = do.call(rbind, lapply(file.list,  read.csv))
   
   # perform calculations
+  mean(df[,pollutant], na.rm = T)
   
 }
+
+
+
+
