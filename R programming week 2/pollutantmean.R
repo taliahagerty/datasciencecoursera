@@ -14,7 +14,7 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   require("stringr")
   key = paste0(str_pad(id, 3, pad = 0), ".csv")
   pos = which(file.list %in% key)
-  file.list <- paste0(directory, file.list[pos])
+  file.list <- paste0("/", directory, file.list[pos])
 
   # import the files, appending to df
   df = do.call(rbind, lapply(file.list,  read.csv))
